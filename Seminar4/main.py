@@ -5,7 +5,7 @@ import random
 # - при $d = 0.001, π = 3.141.$    $10^{-1} ≤ d ≤10^{-10}$
 # https://completerepair.ru/kak-vychislit-chislo-pi
 
-def get_PI(d):
+def get_pi(d):
     accurancy = 2
     while d != 1:
         d *= 10
@@ -17,15 +17,14 @@ def get_PI(d):
     pi_str = str(pi)
     print(f"Число PI c точностью до {accurancy - 2} знаков составляет: {float(pi_str[0:accurancy])}")
 
-# get_PI(0.01)
-# get_PI(0.001)
-# get_PI(0.0001)
-# get_PI(0.00001)
-# get_PI(0.000001)
+get_pi(0.01)
+get_pi(0.001)
+get_pi(0.0001)
 
 # 2 Задайте натуральное число N. Напишите программу, которая составит список простых множителей числа N.
 # *Пример*
 # - при N=236     ->        [2, 2, 59]
+
 def simple_multiplaier(num, lst=[]):
     if num == 1:
         return sorted(lst)
@@ -39,7 +38,8 @@ def simple_multiplaier(num, lst=[]):
             count += 1
 
     return simple_multiplaier(num)
-# print(simple_multiplaier(236))
+
+print(simple_multiplaier(236))
 
 # 3 Задайте последовательность чисел. Напишите программу, которая выведет список
 # неповторяющихся элементов исходной последовательности.
@@ -56,7 +56,7 @@ def get_unic_elements(lst):
             unic_elem.append(k)
     return unic_elem
 
-#print(get_unic_elements([1, 1, 2, 3, 3, 4, 1, 5, 7, 8, 8, 7, 9]))
+print(get_unic_elements([1, 1, 2, 3, 3, 4, 1, 5, 7, 8, 8, 7, 9]))
 
 
 # 4 Задана натуральная степень k. Сформировать случайным образом список коэффициентов (значения от 0 до 100)
@@ -106,20 +106,21 @@ def get_last_three_elements_with_gaps(polinom1_lst, polinom2_lst):
                   str(int(polinom1_lst[-1]) + int(polinom2_lst[-1]))]
     return last_three
 
-def get_result_list_polinom(polinom1_lst, polinom2_lst, last_three):
+def get_result_list_polinom(sorted_dict, last_three):
+    list_values = [i for i in sorted_dict.values()]
     final_lst = []
-    for i in range(len(polinom1_lst)):
-        sum = int(polinom1_lst[i].split("*")[0]) + int(polinom2_lst[i].split("*")[0])
+    for i in range(len(list_values)):
+        number = int(list_values[i].split("*")[0])
         if i == 0:
-            final_lst.append(str(sum) + "*" + polinom1_lst[i].split("*")[1])
+            final_lst.append(list_values[i])
         else:
-            if sum < 0:
-                sum *= -1
+            if number < 0:
+                number *= -1
                 final_lst.append(" - ")
-                final_lst.append(str(sum) + "*" + polinom1_lst[i].split("*")[1])
+                final_lst.append(str(number) + "*" + list_values[i].split("*")[1])
             else:
                 final_lst.append(" + ")
-                final_lst.append(str(sum) + "*" + polinom1_lst[i].split("*")[1])
+                final_lst.append(str(number) + "*" + list_values[i].split("*")[1])
 
     if int(last_three[0]) > 0:
         final_lst.append(" + ")
@@ -128,6 +129,12 @@ def get_result_list_polinom(polinom1_lst, polinom2_lst, last_three):
         last_three[0] = str(int(last_three[0]) * -1)
     final_lst += last_three
     return final_lst
+
+def creat_dictionary(lst):
+    polinom_dict = {}
+    for i in lst:
+        polinom_dict[int(i[-1])] = i
+    return polinom_dict
 
 polinom1_lst = read_file("polinom1").split(" ")  # считывание многочлена в список
 polinom2_lst = read_file("polinom2").split(" ")
@@ -140,10 +147,29 @@ polinom2_lst = [i for i in tmp_lst] #  заполнение исходного �
 last_three = get_last_three_elements_with_gaps(polinom1_lst, polinom2_lst)
 del polinom1_lst[-3::] #  удаление свободного члена, знака равенства и нуля из списка
 del polinom2_lst[-3::]
-final_lst = get_result_list_polinom(polinom1_lst, polinom2_lst, last_three) # список готовый для перевода в строку
+polinom1_dict = creat_dictionary(polinom1_lst)
+polinom2_dict = creat_dictionary(polinom2_lst)
+polinom_sum_dict = {}
+if len(polinom1_dict) > len(polinom2_dict):
+    small_dict = polinom2_dict
+    big_dict = polinom1_dict
+else:
+    small_dict = polinom1_dict
+    big_dict = polinom2_dict
+for i in small_dict.keys():
+    if i in big_dict:
+        sum = int(small_dict[i].split("*")[0]) + int(big_dict[i].split("*")[0])
+        polinom_sum_dict[i] = str(sum) + "*" + small_dict[i].split("*")[1]
+        big_dict.pop(i)
+    else:
+        polinom_sum_dict[i] = small_dict[i]
+polinom_sum_dict.update(big_dict)
+sorted_polinom_dict = dict(sorted(polinom_sum_dict.items(), reverse=True))
+final_lst = get_result_list_polinom(sorted_polinom_dict, last_three) # список готовый для перевода в строку
 join_polinomial = "".join(final_lst)
+print(join_polinomial)
 with open("polinom3", 'w', encoding='utf-8') as file:
-    file.write(join_polinomial + "\n")
+     file.write(join_polinomial + "\n")
 
 
 
