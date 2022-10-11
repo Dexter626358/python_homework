@@ -84,21 +84,21 @@ player2_score = 0
 end = True
 
 
-while end:
-    if flag:
-        candies, player2_score = player(candies, player2_score)
-        flag = False
-        print_game_state(candies, computer_score, player2_score)
-    else:
-        candies, computer_score = computer(candies, computer_score)
-        flag = True
-        print_game_state(candies, computer_score, player2_score)
-    if candies == 0:
-        if flag:
-            print("computer won")
-        else:
-            print("You won")
-        end = False
+# while end:
+#     if flag:
+#         candies, player2_score = player(candies, player2_score)
+#         flag = False
+#         print_game_state(candies, computer_score, player2_score)
+#     else:
+#         candies, computer_score = computer(candies, computer_score)
+#         flag = True
+#         print_game_state(candies, computer_score, player2_score)
+#     if candies == 0:
+#         if flag:
+#             print("computer won")
+#         else:
+#             print("You won")
+#         end = False
 
 
 # Создайте программу для игры в ""Крестики-нолики"".
@@ -196,43 +196,43 @@ def computer(board):
     return board
 
 
-while True:
-    print("The game is starting:")
-    print("'1' - to continue, '0' - to stop the game.")
-    board = [[" ", " ", " "],
-             [" ", " ", " "],
-             [" ", " ", " "]]
-    continue_game = input()
-    if continue_game == '1':
-        print_board(initial_board)
-    elif continue_game == '0':
-        break
-    else:
-        print("Incorrect input")
-        continue
-    while True:
-        if x_or_o:
-            print("Enter coordinate from 1 to 9:")
-            possition = input()
-            possitions = [str(i) for i in range(1, 10)]
-            if possition not in possitions:
-                print("Incorrect. Try again.")
-                continue
-            else:
-                board = player(possition, board)
-                print_board(board)
-                result = check_result_of_game(board)
-                x_or_o = False
-                if result == "Draw" or result == "X wins" or result == "O wins":
-                    break
-        else:
-            print("computer is playing")
-            board = computer(board)
-            print_board(board)
-            result = check_result_of_game(board)
-            x_or_o = True
-            if result == "Draw" or result == "X wins" or result == "O wins":
-                break
+# while True:
+#     print("The game is starting:")
+#     print("'1' - to continue, '0' - to stop the game.")
+#     board = [[" ", " ", " "],
+#              [" ", " ", " "],
+#              [" ", " ", " "]]
+#     continue_game = input()
+#     if continue_game == '1':
+#         print_board(initial_board)
+#     elif continue_game == '0':
+#         break
+#     else:
+#         print("Incorrect input")
+#         continue
+#     while True:
+#         if x_or_o:
+#             print("Enter coordinate from 1 to 9:")
+#             possition = input()
+#             possitions = [str(i) for i in range(1, 10)]
+#             if possition not in possitions:
+#                 print("Incorrect. Try again.")
+#                 continue
+#             else:
+#                 board = player(possition, board)
+#                 print_board(board)
+#                 result = check_result_of_game(board)
+#                 x_or_o = False
+#                 if result == "Draw" or result == "X wins" or result == "O wins":
+#                     break
+#         else:
+#             print("computer is playing")
+#             board = computer(board)
+#             print_board(board)
+#             result = check_result_of_game(board)
+#             x_or_o = True
+#             if result == "Draw" or result == "X wins" or result == "O wins":
+#                 break
 
 # Реализуйте RLE алгоритм: реализуйте модуль сжатия и восстановления данных.
 symbols = "aaaaabbbbbbbbbbbbbbbbbbbbcccccc222222dddddddddddddddeeeee"
@@ -278,7 +278,11 @@ print(decompression(symbols1))
 # [1, 5, 2, 3, 4, 6, 1, 7] => [1, 2, 3] или [1, 7] или [1, 6, 7] и т.д.
 #  Входные и выходные данные хранятся в отдельных текстовых файлах.
 
-lst = [1, 5, 2, 3, 4, 6, 1, 7]
+#lst = [1, 5, 2, 3, 4, 6, 1, 7]
+with open('list', 'r', encoding='utf-8') as file:
+    str_lst = file.read()
+lst = str_lst.split(" ")
+
 two_elms_lst = []
 for i in range(len(lst)): # получение списка последовательностей из 2х элементов
     for j in range(i + 1, len(lst)):
@@ -322,5 +326,10 @@ for i in two_elms_lst:  # выбор возрастающих последова
     if check_seq:
         result.append(i)
 
+result_str = []
+for i in result:
+    result_str.append(str(i))
+with open('sequences', 'w', encoding='utf-8') as file:
+    file.write(" ".join(result_str))
 print(len(result))
 print(result)
