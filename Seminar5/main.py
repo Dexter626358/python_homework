@@ -196,43 +196,43 @@ def computer(board):
     return board
 
 
-# while True:
-#     print("The game is starting:")
-#     print("'1' - to continue, '0' - to stop the game.")
-#     board = [[" ", " ", " "],
-#              [" ", " ", " "],
-#              [" ", " ", " "]]
-#     continue_game = input()
-#     if continue_game == '1':
-#         print_board(initial_board)
-#     elif continue_game == '0':
-#         break
-#     else:
-#         print("Incorrect input")
-#         continue
-#     while True:
-#         if x_or_o:
-#             print("Enter coordinate from 1 to 9:")
-#             possition = input()
-#             possitions = [str(i) for i in range(1, 10)]
-#             if possition not in possitions:
-#                 print("Incorrect. Try again.")
-#                 continue
-#             else:
-#                 board = player(possition, board)
-#                 print_board(board)
-#                 result = check_result_of_game(board)
-#                 x_or_o = False
-#                 if result == "Draw" or result == "X wins" or result == "O wins":
-#                     break
-#         else:
-#             print("computer is playing")
-#             board = computer(board)
-#             print_board(board)
-#             result = check_result_of_game(board)
-#             x_or_o = True
-#             if result == "Draw" or result == "X wins" or result == "O wins":
-#                 break
+while True:
+    print("The game is starting:")
+    print("'1' - to continue, '0' - to stop the game.")
+    board = [[" ", " ", " "],
+             [" ", " ", " "],
+             [" ", " ", " "]]
+    continue_game = input()
+    if continue_game == '1':
+        print_board(initial_board)
+    elif continue_game == '0':
+        break
+    else:
+        print("Incorrect input")
+        continue
+    while True:
+        if x_or_o:
+            print("Enter coordinate from 1 to 9:")
+            possition = input()
+            possitions = [str(i) for i in range(1, 10)]
+            if possition not in possitions:
+                print("Incorrect. Try again.")
+                continue
+            else:
+                board = player(possition, board)
+                print_board(board)
+                result = check_result_of_game(board)
+                x_or_o = False
+                if result == "Draw" or result == "X wins" or result == "O wins":
+                    break
+        else:
+            print("computer is playing")
+            board = computer(board)
+            print_board(board)
+            result = check_result_of_game(board)
+            x_or_o = True
+            if result == "Draw" or result == "X wins" or result == "O wins":
+                break
 
 # Реализуйте RLE алгоритм: реализуйте модуль сжатия и восстановления данных.
 symbols = "aaaaabbbbbbbbbbbbbbbbbbbbcccccc222222dddddddddddddddeeeee"
